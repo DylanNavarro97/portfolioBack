@@ -4,6 +4,7 @@ import 'dotenv/config'
 import morgan from 'morgan';
 import { fileURLToPath } from 'url'
 import path from 'path';
+import mailRouter from './src/routes/mail.routes.js'
 
 const app = express()
 app.use(cors())
@@ -16,11 +17,6 @@ const __dirname = path.dirname(__filename)
 app.use(express.static(path.join(__dirname, '/public')))
 
 app.set('port', process.env.PORT)
+app.listen(app.get('port'))
 
-app.get('/', (req, res) => {
-    res.send('Hola mundo');
-})
-
-app.listen(app.get('port'), () => {
-    console.log(app.get('port'))
-})
+app.use('/api', mailRouter)
