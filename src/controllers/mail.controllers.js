@@ -1,19 +1,18 @@
 import { transporter } from "../config/mailer.js"
+import 'dotenv/config'
 
 export const enviarMail = async (req, res) => {
     try {
-        const {remitente, asunto, mensaje} = req.body
+        const {nombre, remitente, asunto, mensaje} = req.body
         await transporter.sendMail({
-            from: remitente,
-            to: "dylanrubennavarro@gmail.com",
+            from: `${nombre}`,
+            to: process.env.mail,
             subject: asunto,
-            text: mensaje, 
+            text: `De: ${remitente}\n ${mensaje}`, 
           });
-        
-          console.log("Message sent: eo");
-          res.status(200).json({mensaje: "Se envio el mail correctamente"})
+          res.status(200).json({mensaje: "Se envió el mail correctamente."})
     } catch (error) {
         console.log(error)
-        res.status(400).json({mensaje: "No hubo mail"})
+        res.status(500).json({mensaje: "No se realizó el envío del email."})
     }
 }
