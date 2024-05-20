@@ -19,8 +19,7 @@ export const enviarMail = async (req, res) => {
               user: process.env.mail,
               clientId: CLIENT_ID,
               clientSecret: CLIENT_SECRET,
-              refreshToken: REFRESH_TOKEN,
-              accessToken: accessToken
+              
             },
           });
 
@@ -29,7 +28,14 @@ export const enviarMail = async (req, res) => {
             from: `"${nombre}" <${remitente}>`,
             to: 'dylanrubennavarro@gmail.com',
             subject: asunto,
-            text: `De: ${remitente}\n ${mensaje}`, 
+            text: `De: ${remitente}\n ${mensaje}`,
+            auth: {
+              user: process.env.mail,
+
+
+              refreshToken: REFRESH_TOKEN,
+              accessToken: accessToken
+            }
           });
           res.status(200).json({mensaje: "Se envió el mail correctamente."})
     } catch (error) {
